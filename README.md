@@ -1,65 +1,142 @@
 # CVERadar 🛡️
 
-Real-time CVE lookup tool powered by the [NIST NVD API v2](https://nvd.nist.gov/developers/vulnerabilities) and [CISA KEV feed](https://www.cisa.gov/known-exploited-vulnerabilities-catalog).
+A real-time vulnerability intelligence tool built on the NIST NVD and CISA KEV databases. Search 200,000+ CVEs instantly, understand what they mean in plain English, and stay on top of actively exploited vulnerabilities.
 
-## Features
+![CVERadar](https://img.shields.io/badge/NVD-Live-brightgreen) ![License](https://img.shields.io/badge/license-MIT-blue) ![Vite](https://img.shields.io/badge/Vite-5-purple) ![React](https://img.shields.io/badge/React-18-blue)
 
-- 🔍 Search 200,000+ CVEs by ID or keyword (live NVD data)
-- 🎯 Filter by severity (Critical / High / Medium / Low) and year
-- 📊 Full CVSS v3.1 scores, vectors, and severity bars
-- ⚠️ CISA KEV badge — flags actively exploited vulnerabilities
-- 🔗 Affected products, CWE weaknesses, references
-- ♾️ Infinite scroll pagination
-- ⚡ Zero backend — pure client-side, works on Netlify
+---
 
-## Local Development
+## What it does
+
+- 🔍 **Search** any CVE by ID (e.g. `CVE-2021-44228`) or keyword (e.g. `apache`, `openssl`)
+- 📡 **Live feed** — loads the latest published CVEs automatically on startup, refreshes every 3 minutes
+- ⚠️ **CISA KEV badges** — flags vulnerabilities confirmed to be actively exploited in the wild
+- 📊 **Plain English explanations** — severity, attack method, damage potential, all explained for non-technical users
+- 🩹 **Patch links** — separates official fixes from exploit reports
+- 📱 **Fully responsive** — works on mobile, tablet, and desktop
+- ♾️ **Infinite scroll** — paginated results, loads more as you scroll
+
+---
+
+## Tech stack
+
+| Layer | Tech |
+|-------|------|
+| Frontend | React 18 + Vite 5 |
+| Styling | CSS Modules (no Tailwind, no UI library) |
+| Data | [NIST NVD REST API v2](https://nvd.nist.gov/developers/vulnerabilities) |
+| Exploits | [CISA KEV JSON feed](https://www.cisa.gov/known-exploited-vulnerabilities-catalog) |
+| Hosting | Netlify (static, no backend) |
+
+---
+
+## Getting started
+
+### Prerequisites
+- Node.js 18+
+- npm
+
+### Run locally
 
 ```bash
+git clone https://github.com/YOUR_USERNAME/cveradar.git
+cd cveradar
 npm install
 npm run dev
-# Open http://localhost:5173
 ```
+
+Open [http://localhost:5173](http://localhost:5173)
+
+### Build for production
+
+```bash
+npm run build
+```
+
+Output goes to `dist/`.
+
+---
 
 ## Deploy to Netlify
 
-### Option 1 — Netlify CLI
+### Option 1 — GitHub integration (recommended)
+
+1. Push this repo to GitHub
+2. Go to [netlify.com](https://netlify.com) → **Add new site** → **Import from GitHub**
+3. Select this repo
+4. Build settings:
+   - **Build command:** `npm run build`
+   - **Publish directory:** `dist`
+5. Click **Deploy** — done
+
+Every `git push` to `main` triggers an automatic redeploy.
+
+### Option 2 — Netlify CLI
+
 ```bash
 npm run build
 npx netlify deploy --prod --dir=dist
 ```
 
-### Option 2 — GitHub integration
-1. Push this repo to GitHub
-2. Go to [netlify.com](https://netlify.com) → New site from Git
-3. Select your repo
-4. Build command: `npm run build`
-5. Publish directory: `dist`
-6. Deploy — done.
+---
 
-The `netlify.toml` handles proxy rewrites so NVD API calls work in production without CORS issues.
+## API keys
 
-## NVD API Key (optional)
+No API key is required. The app works out of the box using public endpoints.
 
-Without a key: 5 requests/30 seconds — fine for personal use.
-With a free key: 50 requests/30 seconds.
+| API | Limit without key | Limit with free key |
+|-----|-------------------|---------------------|
+| NIST NVD | 5 req / 30 sec | 50 req / 30 sec |
+| CISA KEV | Unlimited | — |
 
-Get one at https://nvd.nist.gov/developers/request-an-api-key
+To use an NVD API key, get one free at [nvd.nist.gov/developers/request-an-api-key](https://nvd.nist.gov/developers/request-an-api-key), then update `src/utils/nvd.js`:
 
-Then create `.env.local`:
-```
-VITE_NVD_API_KEY=your-key-here
-```
-
-And update `src/utils/nvd.js` to pass it as header:
 ```js
-headers: {
-  'apiKey': import.meta.env.VITE_NVD_API_KEY ?? '',
-}
+const res = await fetch(url, {
+  headers: {
+    'Accept': 'application/json',
+    'apiKey': 'your-key-here'
+  }
+})
 ```
 
-## Tech Stack
+---
 
-- Vite + React 18
-- CSS Modules (no Tailwind, no UI lib)
-- NIST NVD REST API v2
-- CISA KEV JSON feed
+## How the proxy works
+
+The `vite.config.js` proxies NVD/CISA requests through `/nvd-api` and `/cisa-api` locally to avoid CORS issues. On Netlify, `netlify.toml` handles the same rewrites in production — no backend or serverless functions needed.
+
+---
+
+## Project structure
+
+```
+src/
+├── components/
+│   ├── TopBar          — Header with live indicator
+│   ├── SearchBar       — Search input + severity/year filters
+│   ├── CVECard         — Result list card
+│   ├── DetailPanel     — Full CVE detail view
+│   ├── EmptyState      — Landing screen with quick searches
+│   └── Skeleton        — Loading shimmer cards
+├── hooks/
+│   ├── useSearch       — NVD search with abort + pagination
+│   └── useLatestCVEs   — Auto-loading latest CVE feed
+└── utils/
+    ├── nvd.js          — NVD API client + parser
+    └── severity.js     — CVSS severity color helpers
+```
+
+---
+
+## License
+
+MIT — free to use, modify, and deploy.
+
+---
+
+## Data sources
+
+- [NIST National Vulnerability Database](https://nvd.nist.gov)
+- [CISA Known Exploited Vulnerabilities Catalog](https://www.cisa.gov/known-exploited-vulnerabilities-catalog)
+- [MITRE CVE Program](https://cve.mitre.org)
