@@ -1,0 +1,140 @@
+.list {
+  height: 100%;
+  overflow-y: auto;
+}
+
+.listHdr {
+  padding: 7px 16px;
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--text3);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg);
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+/* State (empty / error) */
+.state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  padding: 32px 24px;
+  text-align: center;
+  gap: 10px;
+}
+
+.emptyIcon {
+  color: var(--text3);
+  margin-bottom: 4px;
+}
+.emptyIcon svg { width: 36px; height: 36px; }
+
+.errorIcon {
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  background: var(--red-dim);
+  border: 1px solid var(--red);
+  color: var(--red);
+  font-family: var(--mono);
+  font-size: 18px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.stateTitle {
+  font-family: var(--sans);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text2);
+}
+
+.stateMsg {
+  font-size: 12px;
+  color: var(--text3);
+  line-height: 1.6;
+  max-width: 260px;
+}
+.stateMsg code {
+  font-family: var(--mono);
+  color: var(--text2);
+  background: var(--bg2);
+  padding: 1px 4px;
+  border-radius: 3px;
+}
+
+.examples {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  justify-content: center;
+  margin-top: 4px;
+}
+
+.exChip {
+  font-family: var(--mono);
+  font-size: 10px;
+  padding: 4px 10px;
+  border-radius: 20px;
+  border: 1px solid var(--border2);
+  background: var(--bg2);
+  color: var(--text2);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.exChip:hover {
+  border-color: var(--red);
+  color: var(--red);
+  background: var(--red-dim);
+}
+
+/* Skeleton */
+.skeleton {
+  padding: 13px 16px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.skRow {
+  display: flex;
+  gap: 7px;
+  align-items: center;
+}
+
+.skBox {
+  background: linear-gradient(90deg, var(--bg2) 25%, var(--bg3) 50%, var(--bg2) 75%);
+  background-size: 400px 100%;
+  animation: shimmer 1.4s ease-in-out infinite;
+  border-radius: 4px;
+  height: 12px;
+}
+
+.skId    { width: 130px; }
+.skSev   { width: 60px; height: 18px; border-radius: 4px; }
+.skScore { width: 30px; margin-left: auto; height: 16px; }
+.skDesc1 { width: 100%; }
+.skDesc2 { width: 75%; }
+.skTag   { width: 50px; }
+.skDate  { width: 70px; }
+
+/* Load more */
+.loadMore {
+  padding: 14px;
+  text-align: center;
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--text3);
+  cursor: pointer;
+  border-top: 1px solid var(--border);
+  transition: color 0.15s;
+}
+.loadMore:hover { color: var(--text2); }

@@ -1,0 +1,185 @@
+.card {
+  padding: 20px 24px;
+  border-bottom: 1px solid var(--border);
+  cursor: pointer;
+  border-left: 3px solid transparent;
+  transition: background 0.15s, border-left-color 0.2s, transform 0.1s;
+  animation: fadeIn 0.2s ease both;
+  position: relative;
+  -webkit-tap-highlight-color: transparent;
+}
+.card:hover {
+  background: var(--bg2);
+}
+.card:hover .hint { opacity: 1; }
+.card:active { transform: scale(0.995); }
+.card.sel { background: var(--bg2); }
+
+/* Compact sidebar mode */
+.card.compact {
+  padding: 10px 14px;
+}
+
+/* ── Row 1 ── */
+.row1 {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+  flex-wrap: wrap;
+}
+.card.compact .row1 { margin-bottom: 5px; }
+
+.id {
+  font-family: var(--mono);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: 0.02em;
+}
+.card.compact .id { font-size: 10px; }
+
+.sev {
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 700;
+  padding: 3px 9px;
+  border-radius: 5px;
+  letter-spacing: 0.05em;
+}
+.card.compact .sev { font-size: 8px; padding: 2px 6px; }
+
+.kev {
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 4px;
+  background: #2a1a00;
+  color: #f59e0b;
+  border: 1px solid #5a3800;
+  letter-spacing: 0.04em;
+}
+
+.score {
+  margin-left: auto;
+  font-family: var(--mono);
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 1;
+  flex-shrink: 0;
+}
+.card.compact .score { font-size: 13px; }
+
+/* ── Description ── */
+.desc {
+  font-size: 13px;
+  color: var(--text2);
+  line-height: 1.75;
+  margin-bottom: 14px;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  max-width: 90%;
+}
+
+/* ── CVSS bar ── */
+.barWrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+.barTrack {
+  flex: 1;
+  height: 4px;
+  background: var(--bg3);
+  border-radius: 3px;
+  overflow: hidden;
+}
+.barFill {
+  height: 100%;
+  border-radius: 3px;
+  transition: width 0.5s ease;
+}
+.barScore {
+  font-family: var(--mono);
+  font-size: 10px;
+  flex-shrink: 0;
+  opacity: 0.8;
+}
+
+/* ── Footer ── */
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.tags {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  flex-wrap: wrap;
+}
+
+.tag {
+  font-family: var(--mono);
+  font-size: 9px;
+  padding: 2px 7px;
+  border-radius: 4px;
+  background: var(--bg3);
+  color: var(--text3);
+  border: 1px solid var(--border);
+  text-transform: lowercase;
+}
+
+.cwe {
+  font-family: var(--mono);
+  font-size: 9px;
+  padding: 2px 7px;
+  border-radius: 4px;
+  background: var(--blue-dim);
+  color: var(--blue);
+  border: 1px solid #12305c;
+}
+
+.date {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--text3);
+  flex-shrink: 0;
+}
+
+/* ── Click hint ── */
+.hint {
+  position: absolute;
+  bottom: 18px;
+  right: 22px;
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--red);
+  opacity: 0;
+  transition: opacity 0.2s;
+  pointer-events: none;
+}
+
+/* ── Compact overrides ── */
+.card.compact .desc,
+.card.compact .barWrap,
+.card.compact .hint { display: none; }
+
+.card.compact .footer { margin-top: 4px; }
+.card.compact .tag    { font-size: 8px; }
+.card.compact .date   { font-size: 9px; }
+
+/* ── Responsive ── */
+@media (max-width: 640px) {
+  .card { padding: 16px 16px; }
+  .id   { font-size: 12px; }
+  .desc { font-size: 12px; -webkit-line-clamp: 2; max-width: 100%; }
+  .score { font-size: 18px; }
+  .hint { display: none; }
+}

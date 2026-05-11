@@ -1,0 +1,165 @@
+.app {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  height: 100dvh;
+  overflow: hidden;
+  background: var(--bg);
+}
+
+/* ════════════════════════
+   DESKTOP: list only by default
+   On detail: 38% list / 62% detail
+════════════════════════ */
+.main {
+  display: grid;
+  grid-template-columns: 1fr 0px;
+  flex: 1;
+  overflow: hidden;
+  min-height: 0;
+  transition: grid-template-columns 0.38s cubic-bezier(0.4,0,0.2,1);
+}
+.main.detailView {
+  grid-template-columns: 38% 62%;
+}
+
+/* ── List pane ── */
+.listPane {
+  overflow-y: auto;
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+/* ── Detail pane ── */
+.detailPane {
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg1);
+  min-width: 0;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateX(24px);
+  transition:
+    opacity   0.28s ease 0.06s,
+    transform 0.35s cubic-bezier(0.4,0,0.2,1) 0.02s;
+}
+.detailExpanded {
+  opacity: 1;
+  pointer-events: all;
+  transform: translateX(0);
+}
+
+/* ── List chrome ── */
+.listHdr {
+  padding: 10px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--text3);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg);
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  flex-shrink: 0;
+}
+.listSub { font-size: 9px; opacity: 0.6; }
+
+.error {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin: 16px;
+  padding: 13px 15px;
+  background: var(--red-dim);
+  border: 1px solid #5c1414;
+  border-radius: 8px;
+  font-size: 11px;
+  color: #ff6060;
+  font-family: var(--mono);
+  line-height: 1.6;
+}
+
+.noResults {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  gap: 12px;
+  color: var(--text3);
+  padding: 60px 20px;
+  text-align: center;
+}
+.noResults p { font-size: 12px; font-family: var(--mono); line-height: 1.7; }
+
+.endMsg {
+  text-align: center;
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--text3);
+  padding: 20px;
+  letter-spacing: 0.05em;
+}
+
+/* ════════════════════════
+   TABLET ≤ 900px
+════════════════════════ */
+@media (max-width: 900px) {
+  .main.detailView {
+    grid-template-columns: 42% 58%;
+  }
+}
+
+/* ════════════════════════
+   MOBILE ≤ 640px
+   Full-screen slide swap
+════════════════════════ */
+@media (max-width: 640px) {
+  .main {
+    display: block !important;
+    position: relative;
+    flex: 1;
+    overflow: hidden;
+    min-height: 0;
+  }
+
+  .listPane {
+    position: absolute;
+    inset: 0;
+    border-right: none;
+    background: var(--bg);
+    transition: transform 0.34s cubic-bezier(0.4,0,0.2,1),
+                opacity   0.25s ease;
+    z-index: 1;
+    transform: translateX(0);
+    opacity: 1;
+  }
+  .main.detailView .listPane {
+    transform: translateX(-100%);
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .detailPane {
+    position: absolute;
+    inset: 0;
+    background: var(--bg1);
+    opacity: 1 !important;
+    pointer-events: none;
+    transform: translateX(100%) !important;
+    transition: transform 0.34s cubic-bezier(0.4,0,0.2,1) !important;
+    z-index: 2;
+  }
+  .detailExpanded {
+    transform: translateX(0) !important;
+    pointer-events: all;
+  }
+}
