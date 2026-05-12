@@ -3,19 +3,18 @@
   publish = "dist"
 
 [[redirects]]
-  from = "/nvd-api/*"
-  to = "https://services.nvd.nist.gov/:splat"
+  from   = "/nvd-api/*"
+  to     = "https://services.nvd.nist.gov/:splat"
   status = 200
-  force = true
-  headers = {X-From = "Netlify"}
+  force  = true
 
 [[redirects]]
-  from = "/cisa-api/*"
-  to = "https://www.cisa.gov/:splat"
+  from   = "/cisa-api/*"
+  to     = "https://www.cisa.gov/:splat"
   status = 200
-  force = true
+  force  = true
 
 [[redirects]]
-  from = "/*"
-  to = "/index.html"
+  from   = "/*"
+  to     = "/index.html"
   status = 200
