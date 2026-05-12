@@ -1,0 +1,3 @@
+/nvd-api/*  https://services.nvd.nist.gov/:splat  200
+/cisa-api/* https://www.cisa.gov/:splat           200
+/*          /index.html                            200
