@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from 'react'
 import { searchCVEs } from '../utils/nvd.js'
 
-const PAGE_SIZE = 100  // Load 100 CVEs per page
+const PAGE_SIZE = 50  // Load 50 CVEs per page (faster than 100)
 const POLL_MS = 5 * 60 * 1000   // re-poll every 5 min for updates
 
 // Sort CVEs by CVSS score (highest to lowest)
@@ -34,27 +34,33 @@ export function useLatestCVEs() {
       setTotal(data.total)
       
       if (silent) {
-        // Check for new/updated CVEs and merge at the top (de-dupe by id), then sort
+        // Check for new/updated CVEs, sort them, then merge with existing (de-dupe)
         setItems(prev => {
           const existingIds = new Set(prev.map(r => r.id))
           const fresh = data.items.filter(r => !existingIds.has(r.id))
-          const merged = fresh.length ? [...fresh, ...prev] : prev
-          return sortByScore(merged)
+          if (!fresh.length) return prev
+          // Sort fresh items and place at top
+          return [...sortByScore(fresh), ...prev]
         })
       } else {
-        const combined = page === 0 ? data.items : [...items, ...data.items]
-        setItems(sortByScore(combined))
+        // First load or load more - sort new batch before merging
+        const sortedNew = sortByScore(data.items)
+        setItems(prev => {
+          if (page === 0) return sortedNew
+          // Merge and sort all to maintain order
+          return sortByScore([...prev, ...sortedNew])
+        })
         setPage(prev => prev + 1)
       }
       
       // Update hasMore based on total results
-      setHasMore(items.length + data.items.length < data.total)
+      setHasMore((page + 1) * PAGE_SIZE < data.total)
     } catch {
       // silently fail — user can still search manually
     } finally {
       if (!silent) setLoading(false)
     }
-  }, [page, items.length])
+  }, [page])
 
   // Initial load
   useEffect(() => {
