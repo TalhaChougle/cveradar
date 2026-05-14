@@ -1,5 +1,5 @@
-const NVD_BASE = '/nvd-api/rest/json/cves/2.0'
-const CISA_KEV = '/cisa-api/sites/default/files/feeds/known_exploited_vulnerabilities.json'
+const NVD_BASE = 'https://services.nvd.nist.gov/rest/json/cves/2.0'
+const CISA_KEV = 'https://www.cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.json'
 
 let kevSet = null
 
