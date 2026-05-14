@@ -10,7 +10,7 @@ import styles from './App.module.css'
 
 export default function App() {
   const { results, total, loading, error, search, loadMore, hasMore, kevSet } = useSearch()
-  const { items: latestItems, loading: latestLoading } = useLatestCVEs()
+  const { items: latestItems, loading: latestLoading, loadMore: loadMoreLatest, hasMore: latestHasMore, total: latestTotal } = useLatestCVEs()
 
   const [selected,    setSelected]    = useState(null)
   const [view,        setView]        = useState('list')
@@ -19,6 +19,9 @@ export default function App() {
 
   const displayItems   = hasSearched ? results      : latestItems
   const displayLoading = hasSearched ? loading      : latestLoading
+  const displayHasMore = hasSearched ? hasMore      : latestHasMore
+  const displayLoadMore = hasSearched ? loadMore    : loadMoreLatest
+  const displayTotal   = hasSearched ? total        : latestTotal
   const isLatestMode   = !hasSearched
 
   const handleSearch = useCallback((params) => {
@@ -51,11 +54,16 @@ export default function App() {
 
   // Infinite scroll
   const handleScroll = useCallback(() => {
-    if (!hasSearched) return
     const el = listRef.current
-    if (!el || loading || !hasMore) return
-    if (el.scrollHeight - el.scrollTop - el.clientHeight < 280) loadMore()
-  }, [hasSearched, loading, hasMore, loadMore])
+    if (!el || displayLoading || !displayHasMore) return
+    if (el.scrollHeight - el.scrollTop - el.clientHeight < 280) {
+      if (hasSearched) {
+        loadMore()
+      } else {
+        loadMoreLatest()
+      }
+    }
+  }, [displayLoading, displayHasMore, hasSearched, loadMore, loadMoreLatest])
 
   const isKev = selected && kevSet ? kevSet.has(selected.id) : false
 
@@ -65,7 +73,7 @@ export default function App() {
       <SearchBar
         onSearch={handleSearch}
         loading={loading}
-        total={hasSearched ? total : latestItems.length}
+        total={displayTotal}
         hasResults={true}
       />
 

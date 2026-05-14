@@ -32,8 +32,8 @@
 
 .id {
   font-family: var(--mono);
-  font-size: 13px;
-  font-weight: 700;
+  font-size: 19px;
+  font-weight: 800;
   color: var(--text);
   letter-spacing: 0.02em;
 }
@@ -41,9 +41,9 @@
 
 .sev {
   font-family: var(--mono);
-  font-size: 10px;
-  font-weight: 700;
-  padding: 3px 9px;
+  font-size: 14px;
+  font-weight: 800;
+  padding: 5px 13px;
   border-radius: 5px;
   letter-spacing: 0.05em;
 }
@@ -51,12 +51,12 @@
 
 .kev {
   font-family: var(--mono);
-  font-size: 9px;
-  font-weight: 700;
-  padding: 3px 8px;
+  font-size: 13px;
+  font-weight: 800;
+  padding: 5px 12px;
   border-radius: 4px;
   background: #2a1a00;
-  color: #f59e0b;
+  color: #ffc55c;
   border: 1px solid #5a3800;
   letter-spacing: 0.04em;
 }
@@ -64,8 +64,8 @@
 .score {
   margin-left: auto;
   font-family: var(--mono);
-  font-size: 22px;
-  font-weight: 700;
+  font-size: 36px;
+  font-weight: 800;
   line-height: 1;
   flex-shrink: 0;
 }
@@ -73,9 +73,10 @@
 
 /* ── Description ── */
 .desc {
-  font-size: 13px;
+  font-size: 18px;
+  font-weight: 500;
   color: var(--text2);
-  line-height: 1.75;
+  line-height: 1.8;
   margin-bottom: 14px;
   display: -webkit-box;
   -webkit-line-clamp: 3;
@@ -127,11 +128,12 @@
 
 .tag {
   font-family: var(--mono);
-  font-size: 9px;
-  padding: 2px 7px;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 8px;
   border-radius: 4px;
   background: var(--bg3);
-  color: var(--text3);
+  color: var(--text2);
   border: 1px solid var(--border);
   text-transform: lowercase;
 }

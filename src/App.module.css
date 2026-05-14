@@ -54,13 +54,14 @@
 
 /* ── List chrome ── */
 .listHdr {
-  padding: 10px 24px;
+  padding: 12px 24px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   font-family: var(--mono);
-  font-size: 10px;
-  color: var(--text3);
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text);
   letter-spacing: 0.08em;
   text-transform: uppercase;
   border-bottom: 1px solid var(--border);
@@ -70,7 +71,7 @@
   z-index: 2;
   flex-shrink: 0;
 }
-.listSub { font-size: 9px; opacity: 0.6; }
+.listSub { font-size: 13px; opacity: 0.7; }
 
 .error {
   display: flex;

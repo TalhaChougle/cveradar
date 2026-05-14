@@ -26,9 +26,10 @@
   background: var(--bg2);
   border: 1px solid var(--border);
   border-radius: 8px;
-  padding: 9px 34px 9px 34px;
+  padding: 13px 34px 13px 34px;
   font-family: var(--mono);
-  font-size: 12px;
+  font-size: 16px;
+  font-weight: 500;
   color: var(--text);
   outline: none;
   transition: border-color 0.15s, background 0.15s;
@@ -50,9 +51,9 @@
 .btn {
   background: var(--red);
   border: none; border-radius: 8px;
-  padding: 9px 18px;
+  padding: 13px 26px;
   font-family: var(--sans);
-  font-size: 12px; font-weight: 600;
+  font-size: 16px; font-weight: 700;
   color: #fff; cursor: pointer;
   transition: background 0.15s, opacity 0.15s;
   display: flex; align-items: center; gap: 5px;

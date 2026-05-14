@@ -18,7 +18,7 @@
   text-align: center;
 }
 .empty svg { opacity: 0.4; }
-.empty p { font-family: var(--mono); font-size: 13px; }
+.empty p { font-family: var(--mono); font-size: 18px; font-weight: 500; }
 
 /* ══ HEADER ══ */
 .header {
@@ -33,7 +33,7 @@
   align-items: center;
   gap: 6px;
   font-family: var(--mono);
-  font-size: 11px;
+  font-size: 13px;
   color: var(--text3);
   background: var(--bg3);
   border: 1px solid var(--border);
@@ -58,16 +58,16 @@
 }
 .cveId {
   font-family: var(--mono);
-  font-size: 16px;
-  font-weight: 700;
+  font-size: 23px;
+  font-weight: 800;
   color: var(--text);
 }
 .hBadges { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
 .kevBadge {
   font-family: var(--mono);
-  font-size: 10px;
-  font-weight: 700;
-  padding: 4px 10px;
+  font-size: 14px;
+  font-weight: 800;
+  padding: 6px 14px;
   border-radius: 5px;
   background: #2a1a00;
   color: #f59e0b;
@@ -75,8 +75,9 @@
 }
 .statusPill {
   font-family: var(--mono);
-  font-size: 9px;
-  padding: 3px 9px;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 5px 13px;
   border-radius: 20px;
   background: var(--bg3);
   border: 1px solid var(--border);
@@ -105,8 +106,8 @@
 }
 .sevLabel {
   font-family: var(--mono);
-  font-size: 15px;
-  font-weight: 700;
+  font-size: 17px;
+  font-weight: 800;
   letter-spacing: 0.08em;
 }
 .barTrack {
