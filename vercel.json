@@ -1,0 +1,16 @@
+{
+  "rewrites": [
+    {
+      "source": "/nvd-api/:path*",
+      "destination": "https://services.nvd.nist.gov/:path*"
+    },
+    {
+      "source": "/cisa-api/:path*",
+      "destination": "https://www.cisa.gov/:path*"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ]
+}
