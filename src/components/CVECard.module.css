@@ -1,5 +1,5 @@
 .card {
-  padding: 20px 24px;
+  padding: 20px 24px 36px;
   border-bottom: 1px solid var(--border);
   cursor: pointer;
   border-left: 3px solid transparent;
@@ -17,7 +17,7 @@
 
 /* Compact sidebar mode */
 .card.compact {
-  padding: 10px 14px;
+  padding: 10px 14px 28px;
 }
 
 /* ── Row 1 ── */
