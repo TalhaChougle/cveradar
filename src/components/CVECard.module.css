@@ -8,19 +8,13 @@
   position: relative;
   -webkit-tap-highlight-color: transparent;
 }
-.card:hover {
-  background: var(--bg2);
-}
+.card:hover { background: var(--bg2); }
 .card:hover .hint { opacity: 1; }
 .card:active { transform: scale(0.995); }
 .card.sel { background: var(--bg2); }
 
-/* Compact sidebar mode */
-.card.compact {
-  padding: 10px 14px 28px;
-}
+.card.compact { padding: 10px 14px 28px; }
 
-/* ── Row 1 ── */
 .row1 {
   display: flex;
   align-items: center;
@@ -71,7 +65,29 @@
 }
 .card.compact .score { font-size: 13px; }
 
-/* ── Description ── */
+/* ── Publication date ── */
+.pubDate {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: var(--text2);
+  margin-bottom: 12px;
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 7px 12px;
+  width: fit-content;
+}
+.pubDate strong {
+  color: #d8e8ff;
+  font-weight: 700;
+}
+.modDate {
+  color: var(--text3);
+  font-size: 12px;
+}
+
 .desc {
   font-size: 18px;
   font-weight: 500;
@@ -85,7 +101,6 @@
   max-width: 90%;
 }
 
-/* ── CVSS bar ── */
 .barWrap {
   display: flex;
   align-items: center;
@@ -111,21 +126,18 @@
   opacity: 0.8;
 }
 
-/* ── Footer ── */
 .footer {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 10px;
 }
-
 .tags {
   display: flex;
   align-items: center;
   gap: 5px;
   flex-wrap: wrap;
 }
-
 .tag {
   font-family: var(--mono);
   font-size: 11px;
@@ -137,7 +149,6 @@
   border: 1px solid var(--border);
   text-transform: lowercase;
 }
-
 .cwe {
   font-family: var(--mono);
   font-size: 9px;
@@ -147,7 +158,6 @@
   color: var(--blue);
   border: 1px solid #12305c;
 }
-
 .date {
   font-family: var(--mono);
   font-size: 10px;
@@ -155,7 +165,6 @@
   flex-shrink: 0;
 }
 
-/* ── Click hint ── */
 .hint {
   position: absolute;
   bottom: 18px;
@@ -168,20 +177,20 @@
   pointer-events: none;
 }
 
-/* ── Compact overrides ── */
 .card.compact .desc,
 .card.compact .barWrap,
-.card.compact .hint { display: none; }
+.card.compact .hint,
+.card.compact .pubDate { display: none; }
 
 .card.compact .footer { margin-top: 4px; }
 .card.compact .tag    { font-size: 8px; }
 .card.compact .date   { font-size: 9px; }
 
-/* ── Responsive ── */
 @media (max-width: 640px) {
-  .card { padding: 16px 16px; }
-  .id   { font-size: 12px; }
-  .desc { font-size: 12px; -webkit-line-clamp: 2; max-width: 100%; }
+  .card  { padding: 16px 16px; }
+  .id    { font-size: 12px; }
+  .desc  { font-size: 12px; -webkit-line-clamp: 2; max-width: 100%; }
   .score { font-size: 18px; }
-  .hint { display: none; }
+  .hint  { display: none; }
+  .pubDate { font-size: 11px; padding: 5px 10px; }
 }

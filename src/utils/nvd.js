@@ -1,5 +1,5 @@
-const NVD_BASE = 'https://services.nvd.nist.gov/rest/json/cves/2.0'
-const CISA_KEV = 'https://www.cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.json'
+const NVD_BASE = '/nvd-api/rest/json/cves/2.0'
+const CISA_KEV = '/cisa-api/sites/default/files/feeds/known_exploited_vulnerabilities.json'
 
 let kevSet = null
 
@@ -17,7 +17,7 @@ export async function fetchKEV() {
   }
 }
 
-export async function searchCVEs({ query = '', resultsPerPage = 20, startIndex = 0, severityFilter = null, yearFilter = null }) {
+export async function searchCVEs({ query = '', resultsPerPage = 20, startIndex = 0, severityFilter = null, yearFilter = null, pubStartDate = null, pubEndDate = null }) {
   const params = new URLSearchParams()
   params.set('resultsPerPage', resultsPerPage)
   params.set('startIndex', startIndex)
@@ -31,24 +31,17 @@ export async function searchCVEs({ query = '', resultsPerPage = 20, startIndex =
   if (yearFilter) {
     params.set('pubStartDate', `${yearFilter}-01-01T00:00:00.000`)
     params.set('pubEndDate',   `${yearFilter}-12-31T23:59:59.999`)
+  } else if (pubStartDate && pubEndDate) {
+    params.set('pubStartDate', `${pubStartDate}T00:00:00.000`)
+    params.set('pubEndDate',   `${pubEndDate}T23:59:59.999`)
   }
-
-  // Always fetch newest CVEs first by publication date.
-  params.set('sortBy', 'publishedDate')
-  params.set('orderBy', 'desc')
 
   const res = await fetch(`${NVD_BASE}?${params.toString()}`, { headers: { Accept: 'application/json' } })
   if (!res.ok) throw new Error(res.status === 404 ? 'No CVEs found.' : `NVD API error: ${res.status}`)
   const data = await res.json()
-  const items = (data.vulnerabilities ?? []).map(parseCVE)
   return {
     total: data.totalResults ?? 0,
-    items: items.sort((a, b) => {
-      if (a.published === b.published) return 0
-      if (!a.published) return 1
-      if (!b.published) return -1
-      return b.published.localeCompare(a.published)
-    }),
+    items: (data.vulnerabilities ?? []).map(parseCVE),
   }
 }
 
@@ -89,7 +82,6 @@ function parseCVE(v) {
     exploitability = v2.exploitabilityScore; impactScore = v2.impactScore
   }
 
-  // CPE affected products
   const affected = []
   for (const cfg of cve.configurations ?? []) {
     for (const node of cfg.nodes ?? []) {
@@ -103,12 +95,10 @@ function parseCVE(v) {
     }
   }
 
-  const refs = (cve.references ?? []).slice(0, 8).map(r => ({ url: r.url, tags: r.tags ?? [] }))
-  const weaknesses = (cve.weaknesses ?? []).flatMap(w => w.description ?? []).filter(d => d.lang === 'en').map(d => d.value).slice(0, 5)
-  const tags = [...new Set(affected.slice(0, 4).map(a => a.split(' ')[0]))]
-
-  // Separate refs by type
-  const patchRefs  = refs.filter(r => r.tags.some(t => ['Patch','Vendor Advisory','Mitigation'].includes(t)))
+  const refs        = (cve.references ?? []).slice(0, 8).map(r => ({ url: r.url, tags: r.tags ?? [] }))
+  const weaknesses  = (cve.weaknesses ?? []).flatMap(w => w.description ?? []).filter(d => d.lang === 'en').map(d => d.value).slice(0, 5)
+  const tags        = [...new Set(affected.slice(0, 4).map(a => a.split(' ')[0]))]
+  const patchRefs   = refs.filter(r => r.tags.some(t => ['Patch','Vendor Advisory','Mitigation'].includes(t)))
   const exploitRefs = refs.filter(r => r.tags.some(t => ['Exploit','Third Party Advisory'].includes(t)))
 
   return {
