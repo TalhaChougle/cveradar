@@ -33,10 +33,23 @@ export async function searchCVEs({ query = '', resultsPerPage = 20, startIndex =
     params.set('pubEndDate',   `${yearFilter}-12-31T23:59:59.999`)
   }
 
+  // Always fetch newest CVEs first by publication date.
+  params.set('sortBy', 'publishedDate')
+  params.set('orderBy', 'desc')
+
   const res = await fetch(`${NVD_BASE}?${params.toString()}`, { headers: { Accept: 'application/json' } })
   if (!res.ok) throw new Error(res.status === 404 ? 'No CVEs found.' : `NVD API error: ${res.status}`)
   const data = await res.json()
-  return { total: data.totalResults ?? 0, items: (data.vulnerabilities ?? []).map(parseCVE) }
+  const items = (data.vulnerabilities ?? []).map(parseCVE)
+  return {
+    total: data.totalResults ?? 0,
+    items: items.sort((a, b) => {
+      if (a.published === b.published) return 0
+      if (!a.published) return 1
+      if (!b.published) return -1
+      return b.published.localeCompare(a.published)
+    }),
+  }
 }
 
 function parseCVE(v) {

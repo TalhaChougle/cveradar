@@ -4,12 +4,13 @@ import { searchCVEs } from '../utils/nvd.js'
 const PAGE_SIZE = 50  // Load 50 CVEs per page (faster than 100)
 const POLL_MS = 5 * 60 * 1000   // re-poll every 5 min for updates
 
-// Sort CVEs by CVSS score (highest to lowest)
-function sortByScore(items) {
+// Sort CVEs by published date (newest to oldest)
+function sortByDate(items) {
   return [...items].sort((a, b) => {
-    const scoreA = a.score ?? 0
-    const scoreB = b.score ?? 0
-    return scoreB - scoreA
+    if (a.published === b.published) return 0
+    if (!a.published) return 1
+    if (!b.published) return -1
+    return b.published.localeCompare(a.published)
   })
 }
 
@@ -40,15 +41,15 @@ export function useLatestCVEs() {
           const fresh = data.items.filter(r => !existingIds.has(r.id))
           if (!fresh.length) return prev
           // Sort fresh items and place at top
-          return [...sortByScore(fresh), ...prev]
+          return [...sortByDate(fresh), ...prev]
         })
       } else {
         // First load or load more - sort new batch before merging
-        const sortedNew = sortByScore(data.items)
+        const sortedNew = sortByDate(data.items)
         setItems(prev => {
           if (page === 0) return sortedNew
           // Merge and sort all to maintain order
-          return sortByScore([...prev, ...sortedNew])
+          return sortByDate([...prev, ...sortedNew])
         })
         setPage(prev => prev + 1)
       }
